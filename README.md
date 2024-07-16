@@ -49,5 +49,7 @@ and then the results can be used by the plot function
 | `cloud_coverage`   | The cloud cover of the image (in %)            | *float*  |
 | `comment_coverage` | Comment about the coverage and the Moon        | *string* |
 
+## Nota Bene
 
+The Support Vector Machine used in the algorithm is not available because if its size not supported on github. The best way to share the model is currently being considered and will be added shortly.
 
