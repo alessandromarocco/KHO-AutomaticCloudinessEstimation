@@ -20,6 +20,8 @@ model prediction is Intermediate, the detection of the Moon is realized using th
 and the position. Then, according to the presence of the Moon or not on the image, various image segmentation
 algorithm are computed to give an estimation of the cloudiness. 
 
+<img width="1400" height="480" alt="Image" src="https://github.com/user-attachments/assets/4422738f-2dfe-4359-b24d-27b7ab6523b6" />
+
 ## How to use the automatic cloudiness estimation 
 
 The Python-function for estimating the cloud cover from an image is
