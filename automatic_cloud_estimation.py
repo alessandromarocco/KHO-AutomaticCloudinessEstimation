@@ -11,6 +11,7 @@ import pickle
 import matplotlib.pyplot as plt
 from skimage.io import imread
 from skimage.transform import resize
+import os
 
 from image_tools import preprocessing_image, cmask, compute_brightness
 
@@ -117,100 +118,43 @@ def plot_cloud_cover(results, path_save=None, airport_okta=None, kho_okta=None):
 
 
 if __name__ == "__main__":
-    # #Example of a cloud cover estimation
-    #
-    # folder = "test_images/intermediate/"
-    # #img_name = "LYR-Sony-150220_183648-ql.jpg"
-    # #img_name = "LYR-Sony-080220_003742-ql.jpg"
-    # #img_name = "LYR-Sony-080220_083852-ql.jpg"
-    # img_name = "LYR-Sony-20171126_090010.jpg"
-    #
-    # img_path = folder + img_name
-    #
-    # #date = ("20" + img_name[13:15] + "-" + img_name[11:13] + "-" + img_name[9:11] + "T" + img_name[16:18] + ":" +
-    # #        img_name[18:20] + ":" + img_name[20:22])
-    #
-    # date = (img_name[9:13] + "-" + img_name[13:15] + "-" + img_name[15:17] + "T" + img_name[18:20] + ":" +
-    #                       img_name[20:22] + ":" + img_name[22:24])
-    #
-    # img = imread(img_path)
-    #
-    # results = cloud_cover_estimation(img, date)
-    #
-    # plot_cloud_cover(results)
 
-    ##### Airport validation
-    import os
-    import pandas as pd
-    from matplotlib.ticker import MaxNLocator
+    # Example of cloud cover estimation
+    
+    folder = "test_images"
 
-    DF = pd.read_csv(
-        "/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/airport_2017_2018.csv")
-    DF2 = pd.read_csv(
-        "/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/KHO_2017_2018.csv")
-    #print(DF['Time'][0])
-    #print(DF[DF['Time'] == '04.01.2018 01:00'])
-    # print(DF2)
-    print(DF)
-    # DF = DF.set_index(pd.to_datetime(DF['Time']))
-    # DF2 = DF2.set_index(pd.to_datetime(DF['Time']))
+    for root, folders, files in os.walk(folder):
 
-    okta_estimation = []
-    okta_airport = []
-    times = []
+        for img_name in files:
 
-    DF['Estimation'] = pd.Series(dtype='int')
-
-    plt.plot(DF["Cloud cover"], "g--", label="Airport")
-    plt.plot(DF2["Cloud cover"], "g-", label="KHO")
-    plt.ylabel("Cloud Cover in okta")
-    plt.legend()
-    plt.show()
-
-    input_dir = '/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/airport_2017_2018/'
-    for file in os.listdir(os.path.join(input_dir)):
-        if file != ".DS_Store":
-
-            img_path = os.path.join(input_dir, file)
-
-            #img = imread(img_path)
-            #print(file)
-
-            date = (file[9:13] + "-" + file[13:15] + "-" + file[15:17] + "T" + file[18:20] + ":" +
-                     file[20:22] + ":" + file[22:24])
-
-            print("##################",date,"##################")
-
-            hour = str(int(date[11:13])+1)
-            if len(hour) == 1:
-                hour = '0' + hour
-            date_airport = date[8:10] + '.' + date[5:7] + '.' + date[:4] + " " + hour + date[13:16]
-
-            #print(date_airport)
-            #print(DF[DF['Time'] == date_airport]['Cloud cover'])
-            #print(date_airport)
-            #print(DF[DF['Time'] == date_airport]['Cloud cover'])
-            okta_airport = int(DF[DF['Time'] == date_airport]['Cloud cover'].iloc[0])
-            okta_kho = int(DF2[DF2['Time'] == date_airport]['Cloud cover'].iloc[0])
-            #print(okta)
-
-
-
+            img_path = root + '/' + img_name
+            
+            date = ("20" + img_name[13:15] + "-" + img_name[11:13] + "-" + img_name[9:11] + "T" + img_name[16:18] + ":" +
+                    img_name[18:20] + ":" + img_name[20:22])
+    
             img = imread(img_path)
+    
+            results = cloud_cover_estimation(img, date)
+    
+            plot_cloud_cover(results)
 
-            results = cloud_cover_estimation(img,date)
+    # For only one cloud cover estimation
 
-            DF.loc[DF['Time'] == date_airport, 'Estimation'] = int(round(results[2]/12.5,0))
+    folder = "test_images/intermediate/"
+    
+    img_name = "LYR-Sony-080220_003742-ql.jpg"
 
-            plot_cloud_cover(results,
-                             path_save="/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/CloudCover_airport_2017_2018/" + file
-                             ,airport_okta=okta_airport,
-                             kho_okta=okta_kho)
+    img_path = folder + img_name
 
-            # plot_cloud_cover(results,
-            #                  path_save="/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/CloudCover_airport_2017_2018/" + file
-            #                  , airport_okta=okta_airport)
+    date = ("20" + img_name[13:15] + "-" + img_name[11:13] + "-" + img_name[9:11] + "T" + img_name[16:18] + ":" +
+                    img_name[18:20] + ":" + img_name[20:22])
+    
+    img = imread(img_path)
+    
+    results = cloud_cover_estimation(img, date)
+    
+    plot_cloud_cover(results)
 
-    print(DF)
 
-    DF.to_csv("/Users/alessandro/Desktop/University Center in Svalbard/ImageClassification/OneHourResolution/airport_2017_2018_estimation.csv")
+
+    
