@@ -51,5 +51,4 @@ and then the results can be used by the plot function
 
 ## Nota Bene
 
-The Support Vector Machine model used in the algorithm is not available because its size not supported on github. The best way to share the model is currently being considered and will be added shortly.
-
+The Support Vector Machine model used in the algorithm is not available on github because its size is not supported. The model can be download and place in the repository with the following link: https://huggingface.co/alessandromarocco/model3_96px.p
