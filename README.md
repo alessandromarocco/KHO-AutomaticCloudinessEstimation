@@ -51,6 +51,25 @@ and then the results can be used by the plot function
 | `cloud_coverage`   | The cloud cover of the image (in %)            | *float*  |
 | `comment_coverage` | Comment about the coverage and the Moon        | *string* |
 
-## Nota Bene
+## Download the model
 
-The Support Vector Machine model used in the algorithm is not available on github because its size is not supported. The model can be download and place in the repository with the following link: https://huggingface.co/alessandromarocco/model3_96px.p
+The Support Vector Machine model (~328 MB) is too large for GitHub and is hosted
+on Hugging Face: https://huggingface.co/alessandromarocco/KHO-cloudiness-svm
+
+Download it into the root of this repository with:
+
+```bash
+pip install huggingface_hub
+```
+
+```python
+from huggingface_hub import hf_hub_download
+
+hf_hub_download(
+    repo_id="alessandromarocco/KHO-cloudiness-svm",
+    filename="model3_96px.p",
+    local_dir=".",
+)
+```
+
+The model must be loaded with scikit-learn 1.4.2 (pinned in `requirements.txt`).
